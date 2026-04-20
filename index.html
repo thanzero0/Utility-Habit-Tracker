@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist Habit Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Habits.</h1>
+            <p>Track your daily progress</p>
+        </header>
+
+        <main>
+            <div class="add-habit-container">
+                <input type="text" id="habit-input" placeholder="Enter a new habit..." autocomplete="off">
+                <button id="add-habit-btn">+</button>
+            </div>
+
+            <div class="habits-header" id="habits-header">
+                <!-- Days of week will be injected here -->
+            </div>
+
+            <ul id="habit-list" class="habit-list">
+                <!-- Habit items will go here -->
+            </ul>
+        </main>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
