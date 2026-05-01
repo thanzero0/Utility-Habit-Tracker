@@ -2,10 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const habitInput = document.getElementById('habit-input');
     const addHabitBtn = document.getElementById('add-habit-btn');
     const habitList = document.getElementById('habit-list');
-    const habitsHeader = document.getElementById('habits-header');
+    const daysLabels = document.getElementById('days-labels');
+    const dateDisplay = document.getElementById('date-display');
+    const cursorGlow = document.getElementById('cursor-glow');
 
     // Get short day names
-    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const days = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
 
     let habits = JSON.parse(localStorage.getItem('minimalistHabits')) || [];
 
@@ -14,13 +16,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderHeader() {
-        habitsHeader.innerHTML = '';
-        days.forEach(day => {
-            const span = document.createElement('span');
-            span.className = 'day-label';
-            span.textContent = day;
-            habitsHeader.appendChild(span);
-        });
+        if (daysLabels) {
+            daysLabels.innerHTML = '';
+            days.forEach(day => {
+                const span = document.createElement('span');
+                span.className = 'day-label';
+                span.textContent = day;
+                daysLabels.appendChild(span);
+            });
+        }
     }
 
     function renderHabits() {
@@ -39,11 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
             daysContainer.className = 'days-container';
 
             habit.days.forEach((isChecked, dayIndex) => {
-                const checkboxContainer = document.createElement('div');
-                checkboxContainer.style.flex = '1';
-                checkboxContainer.style.display = 'flex';
-                checkboxContainer.style.justifyContent = 'center';
-
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.className = 'day-checkbox';
@@ -53,16 +52,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     saveHabits();
                 });
 
-                checkboxContainer.appendChild(checkbox);
-                daysContainer.appendChild(checkboxContainer);
+                daysContainer.appendChild(checkbox);
             });
 
             li.appendChild(daysContainer);
 
             const deleteBtn = document.createElement('button');
             deleteBtn.className = 'delete-btn';
-            deleteBtn.innerHTML = '&times;';
-            deleteBtn.title = 'Delete habit';
+            deleteBtn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>`;
+            deleteBtn.title = 'Hapus habit';
             deleteBtn.addEventListener('click', () => {
                 habits.splice(habitIndex, 1);
                 saveHabits();
@@ -92,6 +90,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Enter') {
             addHabit();
         }
+    });
+
+    // Update Date
+    if (dateDisplay) {
+        const now = new Date();
+        dateDisplay.textContent = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long' });
+    }
+
+    // Cursor Glow
+    document.addEventListener('mousemove', (e) => {
+        cursorGlow.style.left = e.clientX + 'px';
+        cursorGlow.style.top = e.clientY + 'px';
+        cursorGlow.style.opacity = '1';
+    });
+
+    document.addEventListener('mouseleave', () => {
+        cursorGlow.style.opacity = '0';
     });
 
     // Initial render
