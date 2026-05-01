@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addHabitBtn = document.getElementById('add-habit-btn');
     const habitList = document.getElementById('habit-list');
     const daysLabels = document.getElementById('days-labels');
+    const resetAllBtn = document.getElementById('reset-all-btn');
     const dateDisplay = document.getElementById('date-display');
     const cursorGlow = document.getElementById('cursor-glow');
 
@@ -43,6 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
             daysContainer.className = 'days-container';
 
             habit.days.forEach((isChecked, dayIndex) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'day-checkbox-wrapper';
+                
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.className = 'day-checkbox';
@@ -52,7 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     saveHabits();
                 });
 
-                daysContainer.appendChild(checkbox);
+                wrapper.appendChild(checkbox);
+                daysContainer.appendChild(wrapper);
             });
 
             li.appendChild(daysContainer);
@@ -89,6 +94,17 @@ document.addEventListener('DOMContentLoaded', () => {
     habitInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             addHabit();
+        }
+    });
+
+    resetAllBtn.addEventListener('click', () => {
+        if (habits.length === 0) return;
+        if (confirm('Reset semua progres minggu ini untuk semua habit?')) {
+            habits.forEach(h => {
+                h.days = [false, false, false, false, false, false, false];
+            });
+            saveHabits();
+            renderHabits();
         }
     });
 
