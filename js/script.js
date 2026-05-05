@@ -129,3 +129,23 @@ document.addEventListener('DOMContentLoaded', () => {
     renderHeader();
     renderHabits();
 });
+
+function toggleMainFab() {
+    const fabGroup = document.getElementById("fabGroup");
+    const btn = document.querySelector(".main-fab");
+    if(fabGroup && btn) {
+        fabGroup.classList.toggle("active");
+        btn.classList.toggle("status-active", fabGroup.classList.contains("active"));
+    }
+}
+
+document.addEventListener("click", (e) => {
+    if (!e.target.closest("#fabGroup")) {
+        const fabGroup = document.getElementById("fabGroup");
+        const btn = document.querySelector(".main-fab");
+        if(fabGroup && btn && fabGroup.classList.contains("active")) {
+            fabGroup.classList.remove("active");
+            btn.classList.remove("status-active");
+        }
+    }
+});
